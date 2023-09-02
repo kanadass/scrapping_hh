@@ -11,6 +11,7 @@ params = {
     "text": "python",
     "area": [1, 2]
 }
+
 def get_vacancies():
     response = requests.get(url, headers=headers, params=params)
     if response.status_code == 200:
@@ -30,6 +31,7 @@ def get_data(vacancies):
         salary = salary.text if salary else 'unspecified'
         city = vacancy.find('div', class_='bloko-text', attrs={'data-qa': 'vacancy-serp__vacancy-address'}).text
         link = vacancy.find('a', {'data-qa': 'serp-item__title'}).get('href')
+
         if link:
             response = requests.get(link, headers=headers, params=params)
             if response.status_code == 200:
@@ -58,6 +60,7 @@ def filter_django_flask(data):
         if 'flask' in dct['tags'] or 'django' in dct['tags']:
             res.append(dct)
     return res
+
 def write_to_json(data):
     with open('vacancies.json', 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
